@@ -114,10 +114,18 @@ export const getRecipes = async (req, res) => {
       diet, 
       excludeAllergies, 
       page = 1, 
+      title,
       limit = 10 
     } = req.query;
 
     const query = {};
+
+     if (title) {
+      query["recipe.title"] = { 
+        $regex: title, 
+        $options: 'i' // Case-insensitive
+      };
+    }
     
     // Meal type filter
     if (mealType) {
