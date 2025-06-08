@@ -59,11 +59,8 @@ export const generateRecipe = async (req, res) => {
     });
 
     const generatedText = response.choices[0].message.content;
-    console.log("ORIGINAL");
-    console.log(generatedText);
+
     const parsedRecipe = parseGeneratedRecipe(generatedText);
-    console.log("PARSED");
-    console.log(parsedRecipe);
     const imageBase64 = await generateRecipeImage(
       parsedRecipe.title,
       parsedRecipe.ingredients,
@@ -89,7 +86,6 @@ export const generateRecipe = async (req, res) => {
     });
 
   } catch (error) {
-    console.error('Error:', error);
     res.status(500).json({ error: "Recipe generation failed" });
   }
 };
@@ -176,7 +172,6 @@ export const getRecipes = async (req, res) => {
       }
     });
   } catch (error) {
-    console.error('Error fetching recipes:', error);
     res.status(500).json({ error: "Failed to fetch recipes" });
   }
 };
@@ -191,7 +186,6 @@ export const getRecipeDetails = async (req, res) => {
     }
 
     const recipe = await Recipe.findById(id);
-    console.log(recipe);
     if (!recipe) {
       return res.status(404).json({ error: "Recipe not found" });
     }
@@ -203,7 +197,6 @@ export const getRecipeDetails = async (req, res) => {
       }
     });
   } catch (error) {
-    console.error('Error fetching recipe details:', error);
     res.status(500).json({ error: "Failed to fetch recipe details" });
   }
 };
