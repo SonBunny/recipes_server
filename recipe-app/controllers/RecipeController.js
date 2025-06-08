@@ -59,8 +59,11 @@ export const generateRecipe = async (req, res) => {
     });
 
     const generatedText = response.choices[0].message.content;
-
+    console.log("ORIGINAL");
+    console.log(generatedText);
     const parsedRecipe = parseGeneratedRecipe(generatedText);
+    console.log("PARSED");
+    console.log(parsedRecipe);
     const imageBase64 = await generateRecipeImage(
       parsedRecipe.title,
       parsedRecipe.ingredients,
@@ -86,6 +89,7 @@ export const generateRecipe = async (req, res) => {
     });
 
   } catch (error) {
+    console.error('Error:', error);
     res.status(500).json({ error: "Recipe generation failed" });
   }
 };
@@ -110,26 +114,10 @@ export const getRecipes = async (req, res) => {
       diet, 
       excludeAllergies, 
       page = 1, 
-      title,
-      limit = 3 
+      limit = 10 
     } = req.query;
 
-    const pageNum = parseInt(page);
-    const limitNum = parseInt(limit);
-    
-    if (isNaN(pageNum) || isNaN(limitNum) || pageNum < 1 || limitNum < 1) {
-      return res.status(400).json({ error: "Invalid pagination parameters" });
-    }
-
-
     const query = {};
-
-     if (title) {
-      query["recipe.title"] = { 
-        $regex: title, 
-        $options: 'i' // Case-insensitive
-      };
-    }
     
     // Meal type filter
     if (mealType) {
@@ -162,20 +150,25 @@ export const getRecipes = async (req, res) => {
     const [recipes, total] = await Promise.all([
       Recipe.find(query)
         .sort({ createdAt: -1 })
-        .skip((pageNum - 1) * limitNum)
-        .limit(limitNum)
-        .lean(), // Use lean() for faster queries
+        .skip((page - 1) * limit)
+        .limit(limit),
       Recipe.countDocuments(query)
     ]);
 
     res.json({
       recipes,
       total,
-      page: pageNum,
-      totalPages: Math.ceil(total / limitNum),
-      limit: limitNum
+      page: Number(page),
+      totalPages: Math.ceil(total / limit),
+      filters: {
+        mealType,
+        ingredients,
+        diet,
+        excludeAllergies
+      }
     });
   } catch (error) {
+    console.error('Error fetching recipes:', error);
     res.status(500).json({ error: "Failed to fetch recipes" });
   }
 };
@@ -190,6 +183,7 @@ export const getRecipeDetails = async (req, res) => {
     }
 
     const recipe = await Recipe.findById(id);
+    console.log(recipe);
     if (!recipe) {
       return res.status(404).json({ error: "Recipe not found" });
     }
@@ -201,6 +195,7 @@ export const getRecipeDetails = async (req, res) => {
       }
     });
   } catch (error) {
+    console.error('Error fetching recipe details:', error);
     res.status(500).json({ error: "Failed to fetch recipe details" });
   }
 };
