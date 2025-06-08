@@ -111,8 +111,16 @@ export const getRecipes = async (req, res) => {
       excludeAllergies, 
       page = 1, 
       title,
-      limit = 10 
+      limit = 3 
     } = req.query;
+
+    const pageNum = parseInt(page);
+    const limitNum = parseInt(limit);
+    
+    if (isNaN(pageNum) || isNaN(limitNum) || pageNum < 1 || limitNum < 1) {
+      return res.status(400).json({ error: "Invalid pagination parameters" });
+    }
+
 
     const query = {};
 
@@ -154,22 +162,18 @@ export const getRecipes = async (req, res) => {
     const [recipes, total] = await Promise.all([
       Recipe.find(query)
         .sort({ createdAt: -1 })
-        .skip((page - 1) * limit)
-        .limit(limit),
+        .skip((pageNum - 1) * limitNum)
+        .limit(limitNum)
+        .lean(), // Use lean() for faster queries
       Recipe.countDocuments(query)
     ]);
 
     res.json({
       recipes,
       total,
-      page: Number(page),
-      totalPages: Math.ceil(total / limit),
-      filters: {
-        mealType,
-        ingredients,
-        diet,
-        excludeAllergies
-      }
+      page: pageNum,
+      totalPages: Math.ceil(total / limitNum),
+      limit: limitNum
     });
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch recipes" });
