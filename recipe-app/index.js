@@ -21,6 +21,6 @@ app.get('/health', (req, res) => {
   res.status(200).json({ status: 'healthy' });
 });
 
-app.listen(process.env.PORT, () => {
+app.listen(process.env.PORT,"0.0.0.0", () => {
   console.log(`Server running PORT: ${process.env.PORT}`);
 });

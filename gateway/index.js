@@ -96,7 +96,7 @@ app.use('/recipes', authenticate, recipeProxy);
 
 
 
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0",() => {
   console.log(`🚀 Gateway running on port ${PORT}`);
   console.log(`🔗 Auth endpoint: /auth → ${process.env.USER_SERVICE_URL || 'http://192.168.1.108:5006'}/auth`);
   
