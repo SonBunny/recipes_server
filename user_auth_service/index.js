@@ -15,10 +15,16 @@ const PORT = process.env.PORT;
 const MONGO_URI = process.env.MONGO_URI;
 
 app.use(cors({
-  origin: 'https://recipegenerator--psin2hviw0.expo.app', // Your gateway URL
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type']
+  origin: [
+    'http://localhost:19006',
+    /\.expo\.app$/,
+    /\.expo\.dev$/,
+    'https://recipegenerator--psin2hviw0.expo.app',
+  ],
+  methods: ['GET','POST','PUT','PATCH','DELETE','OPTIONS'],
+  allowedHeaders: undefined, // reflect requested headers
 }));
+app.options('*', cors());
 
 //loging details of all the incoming requests such as HTTP method,path, and origin
 app.use((req, res, next) => {
