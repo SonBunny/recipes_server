@@ -13,12 +13,28 @@ const PORT = process.env.PORT || 5000;
 
 
 // Allow requests from your React app origin only
-const corsOptions = {
-  origin: 'https://recipegenerator--psin2hviw0.expo.app',
-  credentials: true,  // if you use cookies or auth headers
-};
+const allowedOrigins = [
+  'http://localhost:19006',
+  /\.expo\.app$/,
+  /\.expo\.dev$/,
+  'https://recipegenerator--psin2hviw0.expo.app',
+];
 
-app.use(cors(corsOptions));
+app.use(cors({
+  origin(origin, cb) {
+    if (!origin) return cb(null, true);
+    const ok = allowedOrigins.some(o => o instanceof RegExp ? o.test(origin) : o === origin);
+    cb(ok ? null : new Error('Not allowed by CORS'), ok);
+  },
+  methods: ['GET','POST','PUT','PATCH','DELETE','OPTIONS'],
+  // Reflect browser-requested headers; don’t hardcode ['Content-Type'].
+  allowedHeaders: undefined,
+  credentials: false,       // keep false unless you actually need cookies
+  maxAge: 86400,
+}));
+
+// Express 5+: don't use '*' — use regex
+app.options(/.*/, cors());
 
 // 1. Critical Path Preservation Middleware
 app.use('/auth', (req, res, next) => {
