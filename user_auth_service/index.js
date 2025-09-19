@@ -15,21 +15,8 @@ const PORT = process.env.PORT;
 const MONGO_URI = process.env.MONGO_URI;
 
 //enabling cors to handle requests from different origin
-app.use(cors({
-    origin: (origin, cb) => {
-    // Allow no-origin (mobile apps, curl, Postman) and known dev hosts
-    if (!origin) return cb(null, true);
-
-    const allowList = [
-      /^https:\/\/.*\.expo\.app$/,      // any Expo web subdomain
-      'http://localhost:3000',
-      'http://localhost:5173',
-      'http://127.0.0.1:3000'
-    ];
-
-    const ok = allowList.some(rule => rule instanceof RegExp ? rule.test(origin) : rule === origin);
-    return ok ? cb(null, true) : cb(new Error(`CORS blocked for origin: ${origin}`));
-  },
+app.use(cors({ 
+    origin: 'https://recipegenerator--psin2hviw0.expo.app', // Your gateway URL methods: ['GET', 'POST', 'PUT', 'DELETE'], allowedHeaders: ['Content-Type'] }));
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type']
 }));
