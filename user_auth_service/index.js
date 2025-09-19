@@ -15,8 +15,8 @@ const PORT = process.env.PORT;
 const MONGO_URI = process.env.MONGO_URI;
 
 //enabling cors to handle requests from different origin
-app.use(cors({ 
-    origin: 'https://recipegenerator--psin2hviw0.expo.app', // Your gateway URL methods: ['GET', 'POST', 'PUT', 'DELETE'], allowedHeaders: ['Content-Type'] }));
+app.use(cors({
+  origin: 'http://192.168.1.108:8081', // Your gateway URL
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type']
 }));
