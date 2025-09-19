@@ -14,7 +14,7 @@ const PORT = process.env.PORT || 5000;
 
 // Allow requests from your React app origin only
 const corsOptions = {
-  origin: 'http://192.168.1.108:8081',
+  origin: 'https://recipegenerator--psin2hviw0.expo.app',
   credentials: true,  // if you use cookies or auth headers
 };
 
