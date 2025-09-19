@@ -42,7 +42,7 @@ app.use(cors({
 }));
 
 // Ensure Express answers preflight everywhere
-app.options('*', cors());
+app.use(/.*/, cors);
 
 //loging details of all the incoming requests such as HTTP method,path, and origin
 app.use((req, res, next) => {
