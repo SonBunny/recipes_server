@@ -17,7 +17,7 @@ const allowedOrigins = [
   'http://localhost:19006',
   /\.expo\.app$/,
   /\.expo\.dev$/,
-  'http://recipegenerator--psin2hviw0.expo.app',
+  'https://recipegenerator--psin2hviw0.expo.app',
 ];
 
 app.use(cors({
