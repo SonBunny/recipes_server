@@ -24,7 +24,7 @@ app.use(cors({
   methods: ['GET','POST','PUT','PATCH','DELETE','OPTIONS'],
   allowedHeaders: undefined, // reflect requested headers
 }));
-app.options('*', cors());
+app.options(/.*/, cors());
 
 //loging details of all the incoming requests such as HTTP method,path, and origin
 app.use((req, res, next) => {
