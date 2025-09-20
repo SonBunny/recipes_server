@@ -8,7 +8,7 @@ const app = express();
 app.use(express.json());
 
 app.use(cors({
-  origin: 'http://recipegenerator--psin2hviw0.expo.app',
+  origin: 'https://recipegenerator--psin2hviw0.expo.app',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type']
 }));
