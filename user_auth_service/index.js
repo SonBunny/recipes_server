@@ -14,12 +14,14 @@ app.use(express.json());
 const PORT = process.env.PORT;
 const MONGO_URI = process.env.MONGO_URI;
 
+
+
 app.use(cors({
   origin: [
     'http://localhost:19006',
     /\.expo\.app$/,
     /\.expo\.dev$/,
-    'http://recipegenerator--psin2hviw0.expo.app',
+    'https://recipegenerator--psin2hviw0.expo.app',
   ],
   methods: ['GET','POST','PUT','PATCH','DELETE','OPTIONS'],
   allowedHeaders: undefined, // reflect requested headers
