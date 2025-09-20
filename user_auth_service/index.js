@@ -19,7 +19,7 @@ app.use(cors({
     'http://localhost:19006',
     /\.expo\.app$/,
     /\.expo\.dev$/,
-    'https://recipegenerator--psin2hviw0.expo.app',
+    'http://recipegenerator--psin2hviw0.expo.app',
   ],
   methods: ['GET','POST','PUT','PATCH','DELETE','OPTIONS'],
   allowedHeaders: undefined, // reflect requested headers
